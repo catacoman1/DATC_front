@@ -8,6 +8,9 @@ declare const L: any;
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+
+  showNewTaskComponent = false;
+
   ngOnInit(): void {
     if (!navigator.geolocation) {
       console.log('location is not supported');
@@ -51,5 +54,8 @@ export class DashboardComponent implements OnInit {
         maximumAge: 0,
       }
     );
+  }
+  toggleNewTaskComponent(): void {
+    this.showNewTaskComponent = !this.showNewTaskComponent;
   }
 }

@@ -1,0 +1,18 @@
+
+<form (submit)="onSubmit()">
+   
+<label for="problems" class="block mb-2 text-sm font-medium text-gray-900">Selecteaza o problema din lista de mai jos</label>
+<select  [(ngModel)]="selectedProblem" name="problem" id="problems" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+  <option selected>Problema</option>
+  <option value="PanaCurent">Pana Curent</option>
+  <option value="CopacCazut">Copac cazut</option>
+  <option value="Inundatie">Inundatie</option>
+  <option value="Furtuna">Furtuna</option>
+</select>
+
+    
+    <div class="flex justify-center pt-4">
+    <button type="submit" class=" text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-white-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-white-600 dark:hover:bg-white-700 dark:focus:ring-white-800">Trimite</button>
+    </div>
+</form>
+

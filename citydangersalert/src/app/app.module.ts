@@ -9,10 +9,11 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TopComponent } from './top/top.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NewTaskComponent } from './new-task/new-task.component';
 
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, DashboardComponent, NavbarComponent, TopComponent],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, NavbarComponent, TopComponent, NewTaskComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

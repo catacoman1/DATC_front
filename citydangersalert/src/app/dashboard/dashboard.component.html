@@ -5,14 +5,20 @@
     <div id="map"></div>
 </div>
 <div class="container mx-auto flex justify-center pt-20">
-    <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+    <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" (click)="toggleNewTaskComponent()">
       Raporteaza o problema
     </button>
   </div>
-
+  <div class="container mx-auto flex justify-center pt-20">
+  <app-new-task *ngIf="showNewTaskComponent"></app-new-task>
+</div>
   <div class="container mx-auto flex justify-center pt-20">
 
 <app-top></app-top>
 
   </div>
+
+
+
+
   

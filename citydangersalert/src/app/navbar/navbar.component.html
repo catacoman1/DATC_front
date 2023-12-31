@@ -1,29 +1,26 @@
 <nav class="bg-white shadow">
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
-   
+
+ 
       <div class="flex-shrink-0">
-        <img
-          class="h-10 w-auto"
-          src="../../assets/logocitybunbun.png"
-          alt="Company Logo"
-        />
+        
+        <img class="h-16 w-16" src="assets/logocity2.png" alt="Company Logo" />
       </div>
 
       <div class="flex items-center">
-       
         <div class="ml-3 relative">
           <div>
-            <button
-              class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
+        
+            <button (click)="toggleDropdown()" class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               <span class="sr-only">Open user menu</span>
-              <img
-                class="h-8 w-8 rounded-full"
-                src="../../assets/user.png"
-                alt="User Profile"
-              />
+              <img class="h-8 w-8 rounded-full" src="../../assets/user.png" alt="User Profile" />
             </button>
+          </div>
+
+  
+          <div *ngIf="isDropdownVisible" class="absolute right-0 mt-2 w-48 py-1 bg-white shadow-lg border rounded-md">
+            <button (click)="signOut()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</button>
           </div>
         </div>
       </div>

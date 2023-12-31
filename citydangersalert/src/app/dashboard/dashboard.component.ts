@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { jwtDecode } from "jwt-decode";
 declare const L: any;
+
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +9,8 @@ declare const L: any;
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+
+  
 
   showNewTaskComponent = false;
 
@@ -33,6 +36,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.watchPosition();
+    this.decodeToken();
   }
 
   watchPosition() {
@@ -55,7 +59,21 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+  decodeToken() {
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      const decoded = jwtDecode(token) ;
+      console.log('Decoded JWT:', decoded);
+      const email = decoded.sub; 
+      console.log('Email from JWT:', email);
+      const decodedrole = jwtDecode(token) as any;
+      console.log('rol' + decodedrole.roles);
+
+    }
+  }
   toggleNewTaskComponent(): void {
     this.showNewTaskComponent = !this.showNewTaskComponent;
   }
 }
+
+

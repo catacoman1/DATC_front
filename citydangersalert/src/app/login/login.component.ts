@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -7,13 +9,32 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router,private authService: AuthenticationService) {}
   user = {
     email: '',
     password: '',
-  };
+  };    
 
   toDashboard() {
-    this.router.navigate(['/dashboard']);
+    this.authService.authenticate(this.user).subscribe(
+      (response) => {
+        console.log('Authentication successful!');
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+          const decoded = jwtDecode(token) as any; 
+          const roles = decoded.roles;
+      if (roles.includes('ADMIN')) { 
+      this.router.navigate(['/admin-dashboard']);
+      }
+   else {
+      this.router.navigate(['/dashboard']);
+    }
+  } 
+      },
+      (err) => {
+        console.error('Authentication failed!');
+      }
+    );
   }
 }
+

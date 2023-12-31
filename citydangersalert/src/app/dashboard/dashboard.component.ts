@@ -9,9 +9,8 @@ declare const L: any;
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-
-  
-
+  latitude!: number;
+  longitude!: number;
   showNewTaskComponent = false;
 
   ngOnInit(): void {
@@ -20,12 +19,15 @@ export class DashboardComponent implements OnInit {
     }
     navigator.geolocation.getCurrentPosition((position) => {
       const coords = position.coords;
-      console.log(
-        'latitudine ' +
-          position.coords.latitude +
-          'longitudine' +
-          position.coords.longitude
-      );
+      // console.log(
+      //   'latitudine ' +
+      //     position.coords.latitude +
+      //     'longitudine' +
+      //     position.coords.longitude
+      // );
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+     
       let map = L.map('map').setView([coords.latitude, coords.longitude], 13);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -33,6 +35,8 @@ export class DashboardComponent implements OnInit {
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(map);
       let marker = L.marker([coords.latitude, coords.longitude]).addTo(map);
+
+      console.log('muie');
     });
 
     this.watchPosition();

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { jwtDecode } from "jwt-decode";
+import { NotificationsService } from '../services/notifications.service';
 declare const L: any;
 
 
@@ -12,8 +13,9 @@ export class DashboardComponent implements OnInit {
   latitude!: number;
   longitude!: number;
   showNewTaskComponent = false;
-
+  constructor(private notificationService: NotificationsService) { }
   ngOnInit(): void {
+
     if (!navigator.geolocation) {
       console.log('location is not supported');
     }
@@ -27,7 +29,7 @@ export class DashboardComponent implements OnInit {
       // );
       this.latitude = position.coords.latitude;
       this.longitude = position.coords.longitude;
-     
+
       let map = L.map('map').setView([coords.latitude, coords.longitude], 13);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -37,6 +39,8 @@ export class DashboardComponent implements OnInit {
       let marker = L.marker([coords.latitude, coords.longitude]).addTo(map);
 
       console.log('muie');
+      this.notificationService.connect();
+      this.notificationService.onMessageRecived
     });
 
     this.watchPosition();
@@ -48,9 +52,9 @@ export class DashboardComponent implements OnInit {
       (position) => {
         console.log(
           'latitudine ' +
-            position.coords.latitude +
-            'longitudine' +
-            position.coords.longitude
+          position.coords.latitude +
+          'longitudine' +
+          position.coords.longitude
         );
       },
       (err) => {
@@ -66,9 +70,9 @@ export class DashboardComponent implements OnInit {
   decodeToken() {
     const token = localStorage.getItem('jwtToken');
     if (token) {
-      const decoded = jwtDecode(token) ;
+      const decoded = jwtDecode(token);
       console.log('Decoded JWT:', decoded);
-      const email = decoded.sub; 
+      const email = decoded.sub;
       console.log('Email from JWT:', email);
       const decodedrole = jwtDecode(token) as any;
       console.log('rol' + decodedrole.roles);

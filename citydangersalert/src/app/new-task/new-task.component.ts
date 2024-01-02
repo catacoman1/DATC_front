@@ -1,18 +1,27 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NotificationsService } from '../services/notifications.service';
+import { Task } from '../models/task.model';
 
 @Component({
   selector: 'app-new-task',
   templateUrl: './new-task.component.html',
   styleUrls: ['./new-task.component.css']
 })
-export class NewTaskComponent {
+export class NewTaskComponent implements OnInit{
   
   @Input() latitude!: number;
   @Input() longitude!: number;
   selectedProblem!: string;
+  task : Task = {id:10,name:"name",points:10};
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private notificationService: NotificationsService) {}
+  ngOnInit(): void {
+    this.notificationService.connect();
+    this.notificationService.responseSubject.subscribe(val => {
+      console.log(val);
+    });
+  }
 
 
   getPointsForProblem(problem: string): number {
@@ -28,7 +37,7 @@ export class NewTaskComponent {
   onSubmit() {
 
     const points = this.getPointsForProblem(this.selectedProblem);
-    
+    this.notificationService.send(this.task);
     const body = {
       name: this.selectedProblem,
       latitude: this.latitude,

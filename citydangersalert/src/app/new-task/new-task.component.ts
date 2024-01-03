@@ -13,7 +13,7 @@ export class NewTaskComponent implements OnInit {
   @Input() longitude!: number;
   selectedProblem!: string;
   task: Task = {
-    id: 10,
+    id: 99,
     name: 'name',
     points: 10,
     latitude: 10,
@@ -25,10 +25,7 @@ export class NewTaskComponent implements OnInit {
     private notificationService: NotificationsService
   ) {}
   ngOnInit(): void {
-    this.notificationService.connect();
-    this.notificationService.responseSubject.subscribe((val) => {
-      console.log(val);
-    });
+    this.notificationService.connect(); 
   }
 
   getPointsForProblem(problem: string): number {
@@ -47,15 +44,18 @@ export class NewTaskComponent implements OnInit {
   }
 
   onSubmit() {
-    const points = this.getPointsForProblem(this.selectedProblem);
-    this.notificationService.send(this.task);
+    const points = this.getPointsForProblem(this.selectedProblem);  
     const body = {
       name: this.selectedProblem,
       latitude: this.latitude,
       longitude: this.longitude,
       points: points,
     };
-
+    this.task.name = this.selectedProblem;
+    this.task.latitude = this.latitude;
+    this.task.longitude = this.longitude;
+    this.task.points = points;
+    this.notificationService.send(this.task);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'text/plain',

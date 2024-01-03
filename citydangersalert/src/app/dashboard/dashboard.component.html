@@ -1,6 +1,9 @@
 
 <app-navbar></app-navbar>
 <br><br>
+<div *ngFor="let task of notificationService.msg">
+  {{task}}
+</div>
 <div class="container mx-auto p-5 border shadow-lg border-gray-200 ">
     <div id="map"></div>
 </div>

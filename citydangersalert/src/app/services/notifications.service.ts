@@ -11,7 +11,7 @@ export class NotificationsService {
   stompClient: any
   topic: string = "/topic/tasks";
   responseSubject = new Subject<Task>();
-  public msg = [];
+  public msg: Array<Task> = [];
   webSocketEndPoint: string = 'http://localhost:9090/socket/notification';
   constructor() { }
   connect() {
@@ -22,6 +22,7 @@ export class NotificationsService {
     _this.stompClient.connect({}, function (frame: any) {
       _this.stompClient.subscribe(_this.topic, function (taskResponse: any) {
         _this.onMessageRecived(taskResponse);
+        _this.msg.push(taskResponse.body);
       });
     }, this.errorCallBack);
   };
@@ -38,10 +39,9 @@ export class NotificationsService {
     })
   }
   disconect() {
-    if (this.stompClient !== null) {
-      this.stompClient.disconect();
-    }
-    console.log("Disconected");
+    this.stompClient.disconnect(function () {
+      console.log("Disconected");
+    });
   }
   errorCallBack(error: any) {
     console.log("errorCallBack ->" + error)
@@ -56,7 +56,7 @@ export class NotificationsService {
   }
 
   onMessageRecived(message: any) {
-    console.log("Mesaj primit : " + message.body);
+    //console.log("Mesaj primit : " + message.body);
     const obj = JSON.parse(message.body) as Task
     this.responseSubject.next(obj);
   }

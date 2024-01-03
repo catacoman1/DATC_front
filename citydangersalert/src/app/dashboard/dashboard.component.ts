@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
   longitude!: number;
   showNewTaskComponent = false;
   constructor(
-    private notificationService: NotificationsService,
+    public notificationService: NotificationsService,
     private taskService: TaskServiceService
   ) {}
   ngOnInit(): void {
@@ -67,8 +67,6 @@ export class DashboardComponent implements OnInit {
         }
 
         this.notificationService.connect();
-
-        this.notificationService.onMessageRecived;
       },
       (error) => {
         console.error('Error fetching tasks', error);
@@ -111,6 +109,7 @@ export class DashboardComponent implements OnInit {
     }
   }
   toggleNewTaskComponent(): void {
+    this.notificationService.disconect();
     this.showNewTaskComponent = !this.showNewTaskComponent;
   }
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 import { NotificationsService } from '../services/notifications.service';
+import { TaskServiceService } from '../services/task-service.service';
+import { Task } from '../models/task.model';
 declare const L: any;
-
 
 @Component({
   selector: 'app-dashboard',
@@ -10,38 +11,69 @@ declare const L: any;
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+  tasks: Task[] = [];
   latitude!: number;
   longitude!: number;
   showNewTaskComponent = false;
-  constructor(private notificationService: NotificationsService) { }
+  constructor(
+    private notificationService: NotificationsService,
+    private taskService: TaskServiceService
+  ) {}
   ngOnInit(): void {
+    this.taskService.getAllTasks().subscribe(
+      (tasks: Task[]) => {
+        this.tasks = tasks;
 
-    if (!navigator.geolocation) {
-      console.log('location is not supported');
-    }
-    navigator.geolocation.getCurrentPosition((position) => {
-      const coords = position.coords;
-      // console.log(
-      //   'latitudine ' +
-      //     position.coords.latitude +
-      //     'longitudine' +
-      //     position.coords.longitude
-      // );
-      this.latitude = position.coords.latitude;
-      this.longitude = position.coords.longitude;
+        // Ensure map initialization and task processing are done here
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            const coords = position.coords;
+            this.latitude = coords.latitude;
+            this.longitude = coords.longitude;
 
-      let map = L.map('map').setView([coords.latitude, coords.longitude], 13);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map);
-      let marker = L.marker([coords.latitude, coords.longitude]).addTo(map);
+            let map = L.map('map').setView(
+              [coords.latitude, coords.longitude],
+              13
+            );
 
-      console.log('muie');
-      this.notificationService.connect();
-      this.notificationService.onMessageRecived
-    });
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              maxZoom: 19,
+              attribution: '© OpenStreetMap contributors',
+            }).addTo(map);
+            L.marker([coords.latitude, coords.longitude]).addTo(map);
+
+            this.tasks.forEach((task, index) => {
+              if (
+                typeof task.latitude === 'number' &&
+                typeof task.longitude === 'number'
+              ) {
+                const offset = 0.00005 * index;
+                var circle = L.circle(
+                  [task.latitude + offset, task.longitude + offset],
+                  {
+                    color: 'red',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5,
+                    radius: 50,
+                  }
+                ).addTo(map);
+
+                circle.bindPopup(task.name);
+              }
+            });
+          });
+        } else {
+          console.log('Location is not supported');
+        }
+
+        this.notificationService.connect();
+
+        this.notificationService.onMessageRecived;
+      },
+      (error) => {
+        console.error('Error fetching tasks', error);
+      }
+    );
 
     this.watchPosition();
     this.decodeToken();
@@ -52,16 +84,16 @@ export class DashboardComponent implements OnInit {
       (position) => {
         console.log(
           'latitudine ' +
-          position.coords.latitude +
-          'longitudine' +
-          position.coords.longitude
+            position.coords.latitude +
+            'longitudine' +
+            position.coords.longitude
         );
       },
       (err) => {
         console.log(err);
       },
       {
-        enableHighAccuracy: false,
+        enableHighAccuracy: true,
         timeout: 5000,
         maximumAge: 0,
       }
@@ -76,12 +108,9 @@ export class DashboardComponent implements OnInit {
       console.log('Email from JWT:', email);
       const decodedrole = jwtDecode(token) as any;
       console.log('rol' + decodedrole.roles);
-
     }
   }
   toggleNewTaskComponent(): void {
     this.showNewTaskComponent = !this.showNewTaskComponent;
   }
 }
-
-

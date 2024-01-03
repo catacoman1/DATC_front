@@ -12,7 +12,7 @@ export class NotificationsService {
   topic: string = "/topic/tasks";
   responseSubject = new Subject<Task>();
   public msg = [];
-  webSocketEndPoint: string = 'http://localhost:9090/socket/notification';
+  webSocketEndPoint: string = 'https://citydangeralert.azurewebsites.net/socket/notification';
   constructor() { }
   connect() {
     console.log("Conexiune WebSocket initializata");

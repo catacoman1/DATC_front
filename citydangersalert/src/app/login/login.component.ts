@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { jwtDecode } from 'jwt-decode';
@@ -8,7 +8,12 @@ import { jwtDecode } from 'jwt-decode';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
+
+  ngOnInit(): void {
+    localStorage.removeItem('jwtToken'); 
+  }
+
   constructor(private router: Router,private authService: AuthenticationService) {}
   user = {
     email: '',

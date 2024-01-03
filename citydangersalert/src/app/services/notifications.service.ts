@@ -27,7 +27,7 @@ export class NotificationsService {
   };
   connect2() {
 
-    var socket = new SockJS('http://localhost:9090/socket/notification');
+    var socket = new SockJS('https://citydangeralert.azurewebsites.net/socket/notification');
     this.stompClient = Stomp.over(socket);
     const _this = this;
     this.stompClient.connect({}, function (frame: any) {

@@ -7,7 +7,7 @@ import { Task } from '../models/task.model';
   providedIn: 'root'
 })
 export class TaskServiceService {
-  private apiUrl = 'http://localhost:9090/api/tasks'; 
+  private apiUrl = 'https://citydangeralert.azurewebsites.net/api/tasks'; 
 
   constructor(private http: HttpClient) { }
 

@@ -8,43 +8,36 @@ declare var Stomp: any;
   providedIn: 'root'
 })
 export class NotificationsService {
-  stompClient: any
+  stompClient: any;
   topic: string = "/topic/tasks";
   responseSubject = new Subject<Task>();
-  public msg = [];
-  webSocketEndPoint: string = 'http://localhost:9090/socket/notification';
+  public msg: any[] = [];
+  webSocketEndPoint: string = 'https://citydangeralert.azurewebsites.net/socket/notification';
+
   constructor() { }
+
   connect() {
     console.log("Conexiune WebSocket initializata");
-    let ws = SockJS(this.webSocketEndPoint);
+    let ws = new SockJS(this.webSocketEndPoint);
     this.stompClient = Stomp.over(ws);
     const _this = this;
     _this.stompClient.connect({}, function (frame: any) {
+      console.log(frame);
       _this.stompClient.subscribe(_this.topic, function (taskResponse: any) {
-        _this.onMessageRecived(taskResponse);
-        _this.msg.push(taskResponse.body);
+        _this.onMessageReceived(taskResponse);
       });
     }, this.errorCallBack);
-  };
-  connect2() {
+  }
 
-    var socket = new SockJS('https://citydangeralert.azurewebsites.net/socket/notification');
-    this.stompClient = Stomp.over(socket);
-    const _this = this;
-    this.stompClient.connect({}, function (frame: any) {
-      console.log(frame);
-      _this.stompClient.subscribe('/all/messages', function (result: any) {
-        _this.onMessageRecived(result);
-      });
-    })
+  disconnect() {
+    if (this.stompClient !== null) {
+      this.stompClient.disconnect();
+    }
+    console.log("Disconnected");
   }
-  disconect() {
-    this.stompClient.disconnect(function () {
-      console.log("Disconected");
-    });
-  }
+
   errorCallBack(error: any) {
-    console.log("errorCallBack ->" + error)
+    console.log("errorCallBack -> " + error);
     setTimeout(() => {
       this.connect();
     }, 5000);
@@ -55,9 +48,9 @@ export class NotificationsService {
     this.stompClient.send("/app/task", {}, JSON.stringify(message));
   }
 
-  onMessageRecived(message: any) {
-    //console.log("Mesaj primit : " + message.body);
-    const obj = JSON.parse(message.body) as Task
-    this.responseSubject.next(obj);
+  onMessageReceived(message: any) {
+    console.log("Message received: ", message.body);
+    const task: Task = JSON.parse(message.body);
+    this.responseSubject.next(task);
   }
 }

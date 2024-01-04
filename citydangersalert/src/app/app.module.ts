@@ -12,10 +12,10 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { JwtInterceptor } from './jwt.interceptor';
-
+import { TaskCardComponent } from './task-card/task-card.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, DashboardComponent, NavbarComponent, TopComponent, NewTaskComponent, AdminDashboardComponent],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, NavbarComponent, TopComponent, NewTaskComponent, AdminDashboardComponent,TaskCardComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule,ReactiveFormsModule],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },],
   bootstrap: [AppComponent],

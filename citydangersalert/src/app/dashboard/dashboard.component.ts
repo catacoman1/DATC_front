@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { NotificationsService } from '../services/notifications.service';
 import { TaskServiceService } from '../services/task-service.service';
@@ -15,60 +15,29 @@ export class DashboardComponent implements OnInit {
   latitude!: number;
   longitude!: number;
   showNewTaskComponent = false;
+  tasksWithin100Meters: Task[] = [];
+
+  private map: any;
+  private markers: any[] = [];
+
+  @ViewChild('mapContainer') private mapContainer!: ElementRef;
+
   constructor(
-    private notificationService: NotificationsService,
+    public notificationService: NotificationsService,
     private taskService: TaskServiceService
   ) {}
+
   ngOnInit(): void {
+    this.notificationService.connect();
+    this.notificationService.responseSubject.subscribe((task: Task) => {
+      this.tasks.push(task);
+      this.filterTasksWithin100Meters();
+    });
+
     this.taskService.getAllTasks().subscribe(
       (tasks: Task[]) => {
         this.tasks = tasks;
-
-        // Ensure map initialization and task processing are done here
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => {
-            const coords = position.coords;
-            this.latitude = coords.latitude;
-            this.longitude = coords.longitude;
-
-            let map = L.map('map').setView(
-              [coords.latitude, coords.longitude],
-              13
-            );
-
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              maxZoom: 19,
-              attribution: '© OpenStreetMap contributors',
-            }).addTo(map);
-            L.marker([coords.latitude, coords.longitude]).addTo(map);
-
-            this.tasks.forEach((task, index) => {
-              if (
-                typeof task.latitude === 'number' &&
-                typeof task.longitude === 'number'
-              ) {
-                const offset = 0.00005 * index;
-                var circle = L.circle(
-                  [task.latitude + offset, task.longitude + offset],
-                  {
-                    color: 'red',
-                    fillColor: '#f03',
-                    fillOpacity: 0.5,
-                    radius: 50,
-                  }
-                ).addTo(map);
-
-                circle.bindPopup(task.name);
-              }
-            });
-          });
-        } else {
-          console.log('Location is not supported');
-        }
-
-        this.notificationService.connect();
-
-        this.notificationService.onMessageRecived;
+        this.initializeMap();
       },
       (error) => {
         console.error('Error fetching tasks', error);
@@ -77,6 +46,75 @@ export class DashboardComponent implements OnInit {
 
     this.watchPosition();
     this.decodeToken();
+  }
+
+  initializeMap(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const coords = position.coords;
+        this.latitude = coords.latitude;
+        this.longitude = coords.longitude;
+        this.createMap(coords.latitude, coords.longitude);
+        this.filterTasksWithin100Meters();
+      });
+    } else {
+      console.log('Location is not supported');
+    }
+  }
+
+  createMap(latitude: number, longitude: number): void {
+    this.map = L.map('map').setView([latitude, longitude], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors',
+    }).addTo(this.map);
+    L.marker([latitude, longitude]).addTo(this.map);
+
+    this.markers = []; 
+
+    this.tasks.forEach((task) => {
+      if (typeof task.latitude === 'number' && typeof task.longitude === 'number') {
+        
+        const circleMarker = L.circle([task.latitude, task.longitude], {
+          color: 'red',       
+          fillColor: '#f03', 
+          fillOpacity: 0.5,   
+          radius: 50          
+        }).addTo(this.map);
+  
+        circleMarker.bindPopup(task.name);
+        this.markers.push({ task, marker: circleMarker });
+      }
+    });
+  }
+
+  focusOnTask(task: Task): void {
+    const associatedMarker = this.markers.find(m => m.task === task)?.marker;
+    if (associatedMarker) {
+      this.map.setView(associatedMarker.getLatLng(), 13);
+      associatedMarker.openPopup();
+      this.scrollToMap();
+    }
+  }
+
+  private scrollToMap(): void {
+    const elementRect = this.mapContainer.nativeElement.getBoundingClientRect();
+    const absoluteElementTop = elementRect.top + window.pageYOffset;
+    const middle = absoluteElementTop - (window.innerHeight / 3); 
+    window.scrollTo({ top: middle, behavior: 'smooth' });
+  }
+  
+
+  filterTasksWithin100Meters(): void {
+    const latitudeDegreeDistance = 0.0009;
+    const longitudeDegreeDistance = 0.0009 / Math.cos(this.latitude * (Math.PI / 180));
+
+    this.tasksWithin100Meters = this.tasks.filter(task => {
+      const latDistance = Math.abs(this.latitude - task.latitude);
+      const lonDistance = Math.abs(this.longitude - task.longitude);
+
+      return latDistance <= latitudeDegreeDistance && lonDistance <= longitudeDegreeDistance;
+    });
   }
 
   watchPosition() {
@@ -113,4 +151,7 @@ export class DashboardComponent implements OnInit {
   toggleNewTaskComponent(): void {
     this.showNewTaskComponent = !this.showNewTaskComponent;
   }
+
+
+
 }

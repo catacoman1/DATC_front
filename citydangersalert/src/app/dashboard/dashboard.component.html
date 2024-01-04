@@ -1,25 +1,36 @@
 
 <app-navbar></app-navbar>
 <br><br>
-<div *ngFor="let task of notificationService.msg">
-  {{task}}
+<div class="text-center py-4">
+  <h2 class="text-4xl font-bold text-gray-900 pb-4">Problemele din jurul dumneavoastra</h2>
+
+<div class="flex justify-center">
+  <div class="flex flex-col items-center gap-4">
+   
+    <div *ngFor="let task of tasksWithin100Meters" (click)="focusOnTask(task)" class="w-80">
+      <app-task-card [task]="task"></app-task-card>
+    </div> 
+  </div>
 </div>
+</div>
+
 <div class="container mx-auto p-5 border shadow-lg border-gray-200 ">
-    <div id="map"></div>
+  <div id="map" #mapContainer style="height: 400px; width: 100%;"></div>
 </div>
+
 <div class="container mx-auto flex justify-center pt-20">
     <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" (click)="toggleNewTaskComponent()">
       Raporteaza o problema
     </button>
-  </div>
-  <div class="container mx-auto flex justify-center pt-20">
+</div>
+
+<div class="container mx-auto flex justify-center pt-20">
   <app-new-task *ngIf="showNewTaskComponent" [latitude]="latitude" [longitude]="longitude"></app-new-task>
 </div>
-  <div class="container mx-auto flex justify-center pt-20">
 
-<app-top></app-top>
-
-  </div>
+<div class="container mx-auto flex justify-center pt-20">
+  <app-top></app-top>
+</div>
 
 
 

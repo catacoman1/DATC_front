@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Task } from '../models/task.model';
 declare var SockJS: any;
 declare var Stomp: any;
@@ -52,5 +52,8 @@ export class NotificationsService {
     console.log("Message received: ", message.body);
     const task: Task = JSON.parse(message.body);
     this.responseSubject.next(task);
+  }
+  getNotifications(): Observable<Task> {
+    return this.responseSubject.asObservable();
   }
 }

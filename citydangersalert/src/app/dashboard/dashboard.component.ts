@@ -28,6 +28,9 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    
+
     this.notificationService.connect();
     this.notificationService.responseSubject.subscribe((task: Task) => {
       this.tasks.push(task);
@@ -38,6 +41,7 @@ export class DashboardComponent implements OnInit {
       (tasks: Task[]) => {
         this.tasks = tasks;
         this.initializeMap();
+        
       },
       (error) => {
         console.error('Error fetching tasks', error);
@@ -149,8 +153,19 @@ export class DashboardComponent implements OnInit {
     }
   }
   toggleNewTaskComponent(): void {
-    this.notificationService.disconnect();//Trebuie deconectat cand apasam butonul asta, pentru ca altfel apar notificarile de 2 ori
     this.showNewTaskComponent = !this.showNewTaskComponent;
+  }
+  onTaskDeleted(taskId: number): void {
+    this.tasks = this.tasks.filter(task => task.id !== taskId);
+    this.filterTasksWithin100Meters();
+    this.removeMarkerForTask(taskId);
+  }
+  private removeMarkerForTask(taskId: number): void {
+    const markerIndex = this.markers.findIndex(m => m.task.id === taskId);
+    if (markerIndex > -1) {
+      this.map.removeLayer(this.markers[markerIndex].marker);
+      this.markers.splice(markerIndex, 1);
+    }
   }
 
 

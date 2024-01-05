@@ -31,13 +31,19 @@ export class NewTaskComponent implements OnInit {
   getPointsForProblem(problem: string): number {
     switch (problem) {
       case 'PanaCurent':
-        return 300;
+        return 100;
       case 'CopacCazut':
         return 200;
       case 'Inundatie':
         return 200;
       case 'Furtuna':
         return 200;
+      case 'Cos Gunoi Rasturnat':
+        return 10;
+      case 'Alerta Urs':
+        return 50;
+      case 'Incendiu':
+        return 300;
       default:
         return 0;
     }
@@ -76,4 +82,6 @@ export class NewTaskComponent implements OnInit {
         }
       );
   }
+  
 }
+

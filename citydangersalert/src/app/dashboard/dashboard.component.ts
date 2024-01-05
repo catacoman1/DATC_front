@@ -149,6 +149,7 @@ export class DashboardComponent implements OnInit {
     }
   }
   toggleNewTaskComponent(): void {
+    this.notificationService.disconnect();//Trebuie deconectat cand apasam butonul asta, pentru ca altfel apar notificarile de 2 ori
     this.showNewTaskComponent = !this.showNewTaskComponent;
   }
 

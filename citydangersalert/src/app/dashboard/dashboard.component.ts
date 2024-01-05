@@ -153,7 +153,10 @@ export class DashboardComponent implements OnInit {
     }
   }
   toggleNewTaskComponent(): void {
+
+    this.notificationService.disconnect();
     this.showNewTaskComponent = !this.showNewTaskComponent;
+    
   }
   onTaskDeleted(taskId: number): void {
     this.tasks = this.tasks.filter(task => task.id !== taskId);

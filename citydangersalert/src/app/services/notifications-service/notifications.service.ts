@@ -14,6 +14,8 @@ export class NotificationsService {
   public msg: any[] = [];
   webSocketEndPoint: string = 'https://citydangeralert.azurewebsites.net/socket/notification';
 
+  isConnected: boolean = false;
+
   constructor() { }
 
   connect() {
@@ -22,6 +24,7 @@ export class NotificationsService {
     this.stompClient = Stomp.over(ws);
     const _this = this;
     _this.stompClient.connect({}, function (frame: any) {
+      _this.isConnected = true;
       console.log(frame);
       _this.stompClient.subscribe(_this.topic, function (taskResponse: any) {
         _this.onMessageReceived(taskResponse);
@@ -33,10 +36,12 @@ export class NotificationsService {
     if (this.stompClient !== null) {
       this.stompClient.disconnect();
     }
+    this.isConnected = false;
     console.log("Disconnected");
   }
 
   errorCallBack(error: any) {
+    this.isConnected = false;
     console.log("errorCallBack -> " + error);
     setTimeout(() => {
       this.connect();

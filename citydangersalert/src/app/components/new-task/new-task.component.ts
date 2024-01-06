@@ -22,7 +22,7 @@ export class NewTaskComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private notificationService: NotificationsService
+    public notificationService: NotificationsService
   ) {}
   ngOnInit(): void {
     this.notificationService.connect(); 

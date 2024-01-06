@@ -19,10 +19,15 @@
 </div>
 
 <div class="container mx-auto flex justify-center pt-20">
-    <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" (click)="toggleNewTaskComponent()">
-      Raporteaza o problema
-    </button>
+  <button [disabled]="!notificationService.isConnected" 
+          class="py-2 px-4 border rounded shadow font-semibold text-sm max-w-xs mx-auto" 
+          [ngClass]="{'bg-white hover:bg-gray-100 text-gray-800 border-gray-400': notificationService.isConnected, 
+                      'bg-gray-400 text-gray-500 cursor-not-allowed border-gray-400': !notificationService.isConnected}" 
+          (click)="notificationService.isConnected && toggleNewTaskComponent()">
+    Raporteaza o problema
+  </button>
 </div>
+
 
 <div class="container mx-auto flex justify-center pt-20">
   <app-new-task *ngIf="showNewTaskComponent" [latitude]="latitude" [longitude]="longitude"></app-new-task>

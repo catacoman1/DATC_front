@@ -10,7 +10,8 @@ const routes: Routes = [
     component: LoginComponent,
   },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'admin-dashboard', component: AdminDashboardComponent}
+  { path: 'admin-dashboard', component: AdminDashboardComponent},
+  { path: '', redirectTo:'/login', pathMatch:'full'}
 ];
 
 @NgModule({

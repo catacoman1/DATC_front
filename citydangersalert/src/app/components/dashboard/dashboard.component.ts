@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { NotificationsService } from '../services/notifications.service';
-import { TaskServiceService } from '../services/task-service.service';
-import { Task } from '../models/task.model';
+import { NotificationsService } from '../../services/notifications-service/notifications.service';
+import { TaskServiceService } from '../../services/task-service/task-service.service';
+import { Task } from '../../models/task.model';
 declare const L: any;
 
 @Component({

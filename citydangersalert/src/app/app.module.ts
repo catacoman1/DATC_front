@@ -3,16 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NavbarComponent } from './navbar/navbar.component';
-import { TopComponent } from './top/top.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { TopComponent } from './components/top/top.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NewTaskComponent } from './new-task/new-task.component';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { NewTaskComponent } from './components/new-task/new-task.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { JwtInterceptor } from './jwt.interceptor';
-import { TaskCardComponent } from './task-card/task-card.component';
+import { TaskCardComponent } from './components/task-card/task-card.component';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, DashboardComponent, NavbarComponent, TopComponent, NewTaskComponent, AdminDashboardComponent,TaskCardComponent],

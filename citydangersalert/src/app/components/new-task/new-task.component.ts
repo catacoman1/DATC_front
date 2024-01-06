@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NotificationsService } from '../services/notifications.service';
-import { Task } from '../models/task.model';
+import { NotificationsService } from '../../services/notifications-service/notifications.service';
+import { Task } from '../../models/task.model';
 
 @Component({
   selector: 'app-new-task',

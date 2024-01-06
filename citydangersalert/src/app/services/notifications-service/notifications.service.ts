@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Task } from '../models/task.model';
+import { Task } from '../../models/task.model';
 declare var SockJS: any;
 declare var Stomp: any;
 

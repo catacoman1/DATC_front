@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Task } from '../models/task.model';
-import { TaskServiceService } from '../services/task-service.service';
+import { Task } from '../../models/task.model';
+import { TaskServiceService } from '../../services/task-service/task-service.service';
 
 @Component({
   selector: 'app-task-card',

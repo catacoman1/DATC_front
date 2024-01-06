@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthenticationRequest } from '../models/authentication_request';
+import { AuthenticationRequest } from '../../models/authentication_request';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 

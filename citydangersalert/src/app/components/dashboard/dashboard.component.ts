@@ -25,23 +25,24 @@ export class DashboardComponent implements OnInit {
   constructor(
     public notificationService: NotificationsService,
     private taskService: TaskServiceService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
-    
+
 
     this.notificationService.connect();
     this.notificationService.responseSubject.subscribe((task: Task) => {
       this.tasks.push(task);
       this.filterTasksWithin100Meters();
+      this.addMarkers();
     });
 
     this.taskService.getAllTasks().subscribe(
       (tasks: Task[]) => {
         this.tasks = tasks;
         this.initializeMap();
-        
+
       },
       (error) => {
         console.error('Error fetching tasks', error);
@@ -74,24 +75,27 @@ export class DashboardComponent implements OnInit {
     }).addTo(this.map);
     L.marker([latitude, longitude]).addTo(this.map);
 
-    this.markers = []; 
+    this.markers = [];
+    this.addMarkers();
 
+  }
+
+  addMarkers() {
     this.tasks.forEach((task) => {
       if (typeof task.latitude === 'number' && typeof task.longitude === 'number') {
-        
+
         const circleMarker = L.circle([task.latitude, task.longitude], {
-          color: 'red',       
-          fillColor: '#f03', 
-          fillOpacity: 0.5,   
-          radius: 50          
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: 50
         }).addTo(this.map);
-  
+
         circleMarker.bindPopup(task.name);
         this.markers.push({ task, marker: circleMarker });
       }
     });
   }
-
   focusOnTask(task: Task): void {
     const associatedMarker = this.markers.find(m => m.task === task)?.marker;
     if (associatedMarker) {
@@ -104,10 +108,10 @@ export class DashboardComponent implements OnInit {
   private scrollToMap(): void {
     const elementRect = this.mapContainer.nativeElement.getBoundingClientRect();
     const absoluteElementTop = elementRect.top + window.pageYOffset;
-    const middle = absoluteElementTop - (window.innerHeight / 3); 
+    const middle = absoluteElementTop - (window.innerHeight / 3);
     window.scrollTo({ top: middle, behavior: 'smooth' });
   }
-  
+
 
   filterTasksWithin100Meters(): void {
     const latitudeDegreeDistance = 0.0009;
@@ -126,9 +130,9 @@ export class DashboardComponent implements OnInit {
       (position) => {
         console.log(
           'latitudine ' +
-            position.coords.latitude +
-            'longitudine' +
-            position.coords.longitude
+          position.coords.latitude +
+          'longitudine' +
+          position.coords.longitude
         );
       },
       (err) => {
@@ -156,7 +160,7 @@ export class DashboardComponent implements OnInit {
 
     this.notificationService.disconnect();
     this.showNewTaskComponent = !this.showNewTaskComponent;
-    
+
   }
   onTaskDeleted(taskId: number): void {
     this.tasks = this.tasks.filter(task => task.id !== taskId);

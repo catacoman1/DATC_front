@@ -13,9 +13,10 @@ import { NewTaskComponent } from './components/new-task/new-task.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { JwtInterceptor } from './jwt.interceptor';
 import { TaskCardComponent } from './components/task-card/task-card.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, DashboardComponent, NavbarComponent, TopComponent, NewTaskComponent, AdminDashboardComponent,TaskCardComponent],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, NavbarComponent, TopComponent, NewTaskComponent, AdminDashboardComponent,TaskCardComponent, RegisterComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule,ReactiveFormsModule],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },],
   bootstrap: [AppComponent],

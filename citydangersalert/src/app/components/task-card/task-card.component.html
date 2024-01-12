@@ -1,11 +1,12 @@
 <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 flex justify-between items-center">
-    <div>
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{{task.name}}</h5>
-        <p class="font-normal text-gray-700">{{task.points}}</p>
+    <div class="flex-1 min-w-0">
+      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 truncate" title="{{task.name}}">{{task.name}}</h5>
+      <p class="font-normal text-gray-700">{{task.points}}</p>
     </div>
-    <button (click)="deleteTask(task.id)" class="text-green-500 hover:text-green-700">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
+    <button (click)="deleteTask(task.id)" class="ml-4 text-green-500 hover:text-green-700">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
     </button>
-</div>
+  </div>
+  

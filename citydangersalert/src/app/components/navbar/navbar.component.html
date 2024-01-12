@@ -25,6 +25,7 @@
             <img class="h-8 w-8 rounded-full" src="../../assets/user.png" alt="User Profile" />
           </button>
           <div *ngIf="isDropdownVisible" class="absolute right-0 mt-2 w-48 py-1 bg-white shadow-lg border rounded-md">
+            <div class="block px-4 py-2 text-sm text-gray-700">Points: {{ userPoints }}</div>
             <button (click)="signOut()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</button>
           </div>
         </div>

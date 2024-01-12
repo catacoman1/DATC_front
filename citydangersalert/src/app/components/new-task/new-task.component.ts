@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NotificationsService } from '../../services/notifications-service/notifications.service';
 import { Task } from '../../models/task.model';
+import { UserService } from 'src/app/services/user-service/user.service';
+import { AuthenticationService } from 'src/app/services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-new-task',
@@ -22,8 +24,11 @@ export class NewTaskComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    public notificationService: NotificationsService
+    public notificationService: NotificationsService,
+    public userService: UserService,
+    private authService: AuthenticationService 
   ) {}
+
   ngOnInit(): void {
     this.notificationService.connect(); 
   }
@@ -62,26 +67,43 @@ export class NewTaskComponent implements OnInit {
     this.task.longitude = this.longitude;
     this.task.points = points;
     this.notificationService.send(this.task);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'text/plain',
     });
 
-    this.http
-      .post(
-        'https://citydangeralert.azurewebsites.net/api/messages/send',
-        body,
-        { headers: headers, responseType: 'text' }
-      )
+    this.http.post('https://citydangeralert.azurewebsites.net/api/messages/send', body, { headers: headers, responseType: 'text' })
       .subscribe(
         (response) => {
           console.log(response);
+         
+          const currentUserEmail = this.authService.getCurrentUserEmail();
+          if (currentUserEmail) {
+         
+            this.userService.getUserIDByEmail(currentUserEmail).subscribe(
+              userId => {
+             
+                this.userService.addPointsToUser(userId, points).subscribe(
+                  updatedUser => {
+                    console.log('Points added:', updatedUser);
+                  },
+                  error => {
+                    console.error('Error adding points:', error);
+                  }
+                );
+              },
+              error => {
+                console.error('Error retrieving user ID:', error);
+              }
+            );
+          } else {
+            console.error('User email not found in token');
+          }
         },
         (error) => {
-          console.error(error);
+          console.error('Error submitting task:', error);
         }
       );
   }
-  
 }
-

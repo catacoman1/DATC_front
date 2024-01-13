@@ -10,7 +10,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
   authenticate(authRequest: AuthenticationRequest): Observable<any> {
-    return this.http.post('https://citydangeralert.azurewebsites.net/api/v1/auth/authenticate', authRequest).pipe(
+    return this.http.post('https://datcproiectdocker.azurewebsites.net/api/v1/auth/authenticate', authRequest).pipe(
       map((response: any) => {
         if (response && response.token) {
           localStorage.setItem('jwtToken', response.token);

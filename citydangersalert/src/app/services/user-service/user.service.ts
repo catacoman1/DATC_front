@@ -9,9 +9,9 @@ import { AuthenticationService } from '../authentication-service/authentication.
   providedIn: 'root'
 })
 export class UserService {
-  private apiServerUrl = 'https://citydangeralert.azurewebsites.net/api/users';
+  private apiServerUrl = 'https://datcproiectdocker.azurewebsites.net/api/users';
 
-  constructor(private http: HttpClient, private authService:AuthenticationService) {}
+  constructor(private http: HttpClient, private authService: AuthenticationService) { }
 
   public getUserById(userId: number): Observable<User> {
     return this.http.get<User>(`${this.apiServerUrl}/${userId}`);
@@ -37,13 +37,13 @@ export class UserService {
   }
 
   getCurrentUserEmail(): string | null {
-    return this.authService.getCurrentUserEmail(); 
+    return this.authService.getCurrentUserEmail();
   }
 
   getUserIDByEmail(email: string): Observable<number> {
-    return this.http.get<any>(`https://citydangeralert.azurewebsites.net/api/users/email/${email}`)
+    return this.http.get<any>(`https://datcproiectdocker.azurewebsites.net/api/users/email/${email}`)
       .pipe(
-        map(user => user.id) 
+        map(user => user.id)
       );
   }
 }

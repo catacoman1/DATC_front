@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NotificationsService } from '../../services/notifications-service/notifications.service';
 import { Task } from '../../models/task.model';
@@ -10,7 +10,7 @@ import { AuthenticationService } from 'src/app/services/authentication-service/a
   templateUrl: './new-task.component.html',
   styleUrls: ['./new-task.component.css'],
 })
-export class NewTaskComponent implements OnInit {
+export class NewTaskComponent {
   @Input() latitude!: number;
   @Input() longitude!: number;
   selectedProblem!: string;
@@ -29,9 +29,6 @@ export class NewTaskComponent implements OnInit {
     private authService: AuthenticationService 
   ) {}
 
-  ngOnInit(): void {
-    this.notificationService.connect(); 
-  }
 
   getPointsForProblem(problem: string): number {
     switch (problem) {
@@ -73,7 +70,7 @@ export class NewTaskComponent implements OnInit {
       Accept: 'text/plain',
     });
 
-    this.http.post('https://citydangeralert.azurewebsites.net/api/messages/send', body, { headers: headers, responseType: 'text' })
+    this.http.post('https://datcproiectdocker.azurewebsites.net/api/messages/send', body, { headers: headers, responseType: 'text' })
       .subscribe(
         (response) => {
           console.log(response);

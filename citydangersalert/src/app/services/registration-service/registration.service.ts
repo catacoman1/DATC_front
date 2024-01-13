@@ -11,7 +11,7 @@ export class RegistrationService {
 
   constructor(private http: HttpClient) { }
   register(regRequest: RegistrationRequest): Observable<any> {
-    return this.http.post('https://citydangeralert.azurewebsites.net/api/v1/auth/register', regRequest).pipe(
+    return this.http.post('https://datcproiectdocker.azurewebsites.net/api/v1/auth/register', regRequest).pipe(
       map((response: any) => {
         return response;
       })

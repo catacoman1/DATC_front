@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1705245138407,
+  "timestamp": 1705245330220,
   "index": "https://catacoman1.github.io/DATC_front/index.html",
   "assetGroups": [
     {
@@ -13,11 +13,11 @@
       "urls": [
         "https://catacoman1.github.io/DATC_front/favicon.ico",
         "https://catacoman1.github.io/DATC_front/index.html",
-        "https://catacoman1.github.io/DATC_front/main.bcb1b74ec6bae7ee.js",
+        "https://catacoman1.github.io/DATC_front/main.ed007b0157aa4936.js",
         "https://catacoman1.github.io/DATC_front/manifest.webmanifest",
         "https://catacoman1.github.io/DATC_front/polyfills.7fc2c6c563610bcf.js",
         "https://catacoman1.github.io/DATC_front/runtime.e27af956679dd5cb.js",
-        "https://catacoman1.github.io/DATC_front/styles.5140ce29975f5052.css"
+        "https://catacoman1.github.io/DATC_front/styles.a02f6680b79314aa.css"
       ],
       "patterns": []
     },
@@ -68,12 +68,12 @@
     "https://catacoman1.github.io/DATC_front/assets/stomp.min.js": "f98f52551fbd3446def446435c7be6d976f24ae8",
     "https://catacoman1.github.io/DATC_front/assets/user.png": "8e8c2757d901ca8d557a9c686dfe10be16f1bfa9",
     "https://catacoman1.github.io/DATC_front/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "https://catacoman1.github.io/DATC_front/index.html": "7f8cc5cadfa4e03d51ed7349f34a5465773b9b5a",
-    "https://catacoman1.github.io/DATC_front/main.bcb1b74ec6bae7ee.js": "f0d65d4744870c95d50015bb44d480e6fbdb7710",
+    "https://catacoman1.github.io/DATC_front/index.html": "1f427727fabe618ad46b6d6b8e681f2eb53c9bd6",
+    "https://catacoman1.github.io/DATC_front/main.ed007b0157aa4936.js": "3e07d12c9ea1b357e4f9e37de53a0dadde032e66",
     "https://catacoman1.github.io/DATC_front/manifest.webmanifest": "7fce55663cac86b90887ae6ef3db4316424783b8",
     "https://catacoman1.github.io/DATC_front/polyfills.7fc2c6c563610bcf.js": "8d766518558beda70fbc68b43076065a1b09afa5",
     "https://catacoman1.github.io/DATC_front/runtime.e27af956679dd5cb.js": "ff2d12aa5349b515800303efedd343ae9d714477",
-    "https://catacoman1.github.io/DATC_front/styles.5140ce29975f5052.css": "9ae36cdbc3adec6da9e55f1ecef45909bdc3e5fb"
+    "https://catacoman1.github.io/DATC_front/styles.a02f6680b79314aa.css": "846f125c1eece65d66c1a677d1c53754e4c44ed2"
   },
   "navigationUrls": [
     {

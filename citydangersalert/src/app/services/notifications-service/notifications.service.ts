@@ -12,7 +12,7 @@ export class NotificationsService {
   topic: string = "/topic/tasks";
   responseSubject = new Subject<Task>();
   public msg: any[] = [];
-  webSocketEndPoint: string = 'https://citydangeralert.azurewebsites.net/socket/notification';
+  webSocketEndPoint: string = 'https://datcproiectdocker.azurewebsites.net/socket/notification';
 
   isConnected: boolean = false;
 

@@ -5,7 +5,8 @@
 <ul role="list" class="divide-y divide-gray-100 outline outline-gray-100 py-10 px-5 ">
     <li *ngFor="let user of users | slice:0:5" class="flex justify-between gap-x-6 py-5 ">
       <div class="flex min-w-0 gap-x-4">
-        <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="../../assets/user.png" alt="User's profile image">
+        <svg class ="h-12 w-12 flex-none rounded-full bg-gray-50 " xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
+        
         <div class="min-w-0 flex-auto">
         <p class="mt-1 truncate text-xl leading-5 text-gray-500">#{{ user.orderIndex +1}}</p>
           <p class="text-sm font-semibold leading-6 text-gray-900">{{ user.firstName }}</p>
